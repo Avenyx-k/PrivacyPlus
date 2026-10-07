@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Privacy+ | Data Privacy Awareness</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <div class="brand">
+        <div class="brand-icon">+</div>
+
+        <div>
+            <div class="brand-name">Privacy+</div>
+            <div class="brand-subtitle">Privacy Awareness</div>
+        </div>
+    </div>
+
+    <nav>
+
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#features">Features</a>
+
+        <a class="nav-login"
+           href="{{ url_for('login') }}">
+            Login
+        </a>
+
+        <a class="nav-button"
+           href="{{ url_for('register') }}">
+            Get Started
+        </a>
+
+    </nav>
+
+</header>
+
+
+<main>
+
+<section class="hero" id="home">
+
+    <div class="hero-content">
+
+        <div class="eyebrow">
+            DIGITAL PRIVACY AWARENESS
+        </div>
+
+        <h1>
+            Understand your
+            <span>digital privacy.</span>
+        </h1>
+
+        <p>
+            Privacy+ helps college students understand
+            how their personal information is used,
+            recognize privacy risks and build safer
+            digital habits.
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="{{ url_for('register') }}"
+               class="primary-button">
+                Start Your Privacy Check →
+            </a>
+
+            <a href="#about"
+               class="secondary-button">
+                Learn More
+            </a>
+
+        </div>
+
+        <div class="hero-note">
+            🔒 Your privacy awareness journey starts here.
+        </div>
+
+    </div>
+
+
+    <div class="hero-card">
+
+        <div class="floating-card card-one">
+            <span>🛡</span>
+            <div>
+                <strong>Privacy</strong>
+                <small>Awareness</small>
+            </div>
+        </div>
+
+        <div class="privacy-orb">
+
+            <div class="orb-icon">
+                +
+            </div>
+
+            <strong>Privacy+</strong>
+
+            <small>
+                Learn • Check • Protect
+            </small>
+
+        </div>
+
+        <div class="floating-card card-two">
+
+            <span>✓</span>
+
+            <div>
+                <strong>Secure Habits</strong>
+                <small>Build better habits</small>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="info-section" id="about">
+
+    <div class="section-label">
+        ABOUT PRIVACY+
+    </div>
+
+    <h2>
+        Privacy awareness made practical.
+    </h2>
+
+    <p>
+        Privacy+ is a web application designed to
+        help college students understand data privacy
+        through interactive learning, assessments
+        and practical privacy tools.
+    </p>
+
+</section>
+
+
+<section class="feature-section" id="features">
+
+    <div class="section-label">
+        WHAT YOU CAN DO
+    </div>
+
+    <h2>
+        More than a questionnaire.
+    </h2>
+
+    <div class="feature-grid">
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                🛡
+            </div>
+
+            <h3>Privacy Check</h3>
+
+            <p>
+                Assess your privacy awareness and
+                understand your risk areas.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                🔍
+            </div>
+
+            <h3>Privacy Tools</h3>
+
+            <p>
+                Explore practical tools for scams,
+                apps and digital privacy.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                📊
+            </div>
+
+            <h3>Track Progress</h3>
+
+            <p>
+                Monitor your privacy awareness and
+                improve your digital habits.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="cta-section">
+
+    <h2>
+        Ready to understand your privacy?
+    </h2>
+
+    <p>
+        Create your Privacy+ account and begin
+        your privacy awareness journey.
+    </p>
+
+    <a href="{{ url_for('register') }}"
+       class="primary-button">
+        Create Account →
+    </a>
+
+</section>
+
+</main>
+
+
+<footer>
+
+    <strong>Privacy+</strong>
+
+    <span>
+        Data Privacy Awareness Web Application
+    </span>
+
+</footer>
+
+</body>
+
+</html>

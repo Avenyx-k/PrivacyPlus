@@ -1,0 +1,370 @@
+{% extends "base.html" %}
+
+{% block title %}Privacy+ | Data Privacy Awareness{% endblock %}
+
+{% block content %}
+
+<header class="main-header">
+
+    <a href="/" class="brand">
+
+        <div class="brand-icon">+</div>
+
+        <span>Privacy<span class="blue-text">+</span></span>
+
+    </a>
+
+
+    <nav class="main-nav">
+
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#features">Features</a>
+        <a href="#privacy-hub">Privacy Hub</a>
+        <a href="#contact">Contact</a>
+
+    </nav>
+
+
+    <div class="header-actions">
+
+        <button
+            class="theme-button"
+            onclick="toggleTheme()"
+            title="Toggle theme"
+        >
+            ◐
+        </button>
+
+        <a href="{{ url_for('login') }}" class="login-button">
+            Login
+        </a>
+
+    </div>
+
+</header>
+
+
+<main>
+
+
+<section class="hero" id="home">
+
+    <div class="hero-content">
+
+        <span class="eyebrow">
+            DATA PRIVACY AWARENESS PLATFORM
+        </span>
+
+        <h1>
+            Your digital privacy
+            <span>starts with awareness.</span>
+        </h1>
+
+        <p>
+            Understand your privacy habits, identify weak areas,
+            and build safer digital habits with Privacy+.
+        </p>
+
+
+        <div class="hero-buttons">
+
+            <a
+                href="{{ url_for('register') }}"
+                class="primary-button"
+            >
+                Start Privacy Check →
+            </a>
+
+            <a
+                href="#features"
+                class="secondary-button"
+            >
+                Explore Privacy+
+            </a>
+
+        </div>
+
+
+        <div class="hero-stats">
+
+            <div>
+                <strong>01</strong>
+                <span>Assess</span>
+            </div>
+
+            <div>
+                <strong>02</strong>
+                <span>Understand</span>
+            </div>
+
+            <div>
+                <strong>03</strong>
+                <span>Improve</span>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="hero-visual">
+
+        <div class="privacy-orbit">
+
+            <div class="orbit-circle circle-one"></div>
+            <div class="orbit-circle circle-two"></div>
+
+            <div class="shield-card">
+
+                <div class="shield-icon">⌾</div>
+
+                <h3>Your Privacy</h3>
+
+                <p>
+                    Awareness is your first layer of protection.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<section class="section" id="features">
+
+    <div class="section-heading">
+
+        <span>WHAT PRIVACY+ OFFERS</span>
+
+        <h2>
+            Everything you need to understand
+            your digital privacy.
+        </h2>
+
+    </div>
+
+
+    <div class="feature-grid">
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon blue">
+                ✓
+            </div>
+
+            <h3>Privacy Check</h3>
+
+            <p>
+                Assess your awareness through interactive
+                privacy questions.
+            </p>
+
+            <span class="card-arrow">→</span>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon purple">
+                ✦
+            </div>
+
+            <h3>AI Analysis</h3>
+
+            <p>
+                Analyze your privacy habits and identify
+                areas that need attention.
+            </p>
+
+            <span class="card-arrow">→</span>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon green">
+                ✓
+            </div>
+
+            <h3>Scam Checker</h3>
+
+            <p>
+                Learn how suspicious messages and links
+                can create digital risks.
+            </p>
+
+            <span class="card-arrow">→</span>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon orange">
+                i
+            </div>
+
+            <h3>Privacy Hub</h3>
+
+            <p>
+                Explore privacy tips, educational resources
+                and digital safety information.
+            </p>
+
+            <span class="card-arrow">→</span>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<section class="about-section" id="about">
+
+    <div class="about-content">
+
+        <span class="section-label">
+            ABOUT PRIVACY+
+        </span>
+
+        <h2>
+            Privacy awareness for
+            the digital generation.
+        </h2>
+
+        <p>
+            Privacy+ is a data privacy awareness web application
+            designed for college students. It helps users understand
+            their digital privacy habits and learn safer practices.
+        </p>
+
+
+        <div class="about-points">
+
+            <div>
+                <strong>✓</strong>
+                Student-focused
+            </div>
+
+            <div>
+                <strong>✓</strong>
+                Interactive learning
+            </div>
+
+            <div>
+                <strong>✓</strong>
+                Personalized insights
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="about-card">
+
+        <div class="big-number">+</div>
+
+        <h3>
+            Learn.
+            Check.
+            Improve.
+        </h3>
+
+        <p>
+            Small changes in digital habits can make
+            a meaningful difference.
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<section class="privacy-hub-preview" id="privacy-hub">
+
+    <div>
+
+        <span class="section-label">
+            PRIVACY HUB
+        </span>
+
+        <h2>
+            Learn before you click.
+        </h2>
+
+        <p>
+            Explore practical information about passwords,
+            permissions, phishing, social media privacy,
+            personal information and more.
+        </p>
+
+        <a href="{{ url_for('register') }}" class="primary-button">
+            Explore Privacy Hub →
+        </a>
+
+    </div>
+
+
+    <div class="hub-items">
+
+        <div>🔐 Password Safety</div>
+        <div>📱 App Permissions</div>
+        <div>🎣 Phishing Awareness</div>
+        <div>🌐 Social Media Privacy</div>
+
+    </div>
+
+</section>
+
+
+
+<section class="contact-section" id="contact">
+
+    <span class="section-label">
+        CONTACT
+    </span>
+
+    <h2>
+        Have questions about Privacy+?
+    </h2>
+
+    <p>
+        Privacy awareness starts with asking the right questions.
+    </p>
+
+    <a href="mailto:privacyplus@example.com">
+        privacyplus@example.com
+    </a>
+
+</section>
+
+</main>
+
+
+
+<footer id="footer">
+
+    <div class="footer-brand">
+        <strong>Privacy<span>+</span></strong>
+        <p>Data Privacy Awareness Web Application</p>
+    </div>
+
+    <div>
+        <p>© 2026 Privacy+</p>
+    </div>
+
+</footer>
+
+{% endblock %}

@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Privacy+ AI Assistant</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f8fafc;
+            color: #0f172a;
+        }
+
+        .assistant-page {
+            min-height: 100vh;
+            padding: 30px;
+        }
+
+        .assistant-container {
+            max-width: 950px;
+            margin: auto;
+        }
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .back {
+            text-decoration: none;
+            color: #2563eb;
+            font-weight: 600;
+        }
+
+        .title {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 18px;
+        }
+
+        .title h1 {
+            margin: 0 0 8px;
+        }
+
+        .title p {
+            margin: 0;
+            color: #64748b;
+        }
+
+        .chat-box {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            overflow: hidden;
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .messages {
+            flex: 1;
+            padding: 25px;
+            overflow-y: auto;
+            min-height: 350px;
+            max-height: 500px;
+        }
+
+        .message {
+            max-width: 75%;
+            padding: 13px 16px;
+            border-radius: 15px;
+            margin-bottom: 14px;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .assistant-message {
+            background: #eff6ff;
+            color: #1e3a8a;
+        }
+
+        .user-message {
+            background: #2563eb;
+            color: white;
+            margin-left: auto;
+        }
+
+        .suggestions {
+            padding: 0 25px 20px;
+        }
+
+        .suggestions h3 {
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .suggestion-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .suggestion {
+            border: 1px solid #dbeafe;
+            background: #f8fbff;
+            color: #1d4ed8;
+            padding: 13px;
+            border-radius: 12px;
+            text-align: left;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .suggestion:hover {
+            background: #eff6ff;
+            border-color: #93c5fd;
+        }
+
+        .input-area {
+            display: flex;
+            gap: 10px;
+            padding: 18px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .input-area input {
+            flex: 1;
+            padding: 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 12px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .input-area input:focus {
+            border-color: #2563eb;
+        }
+
+        .send-button {
+            border: none;
+            background: #2563eb;
+            color: white;
+            padding: 0 22px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .send-button:hover {
+            background: #1d4ed8;
+        }
+
+        .typing {
+            color: #64748b;
+            font-size: 13px;
+            display: none;
+            margin-bottom: 12px;
+        }
+
+        @media(max-width: 650px) {
+
+            .assistant-page {
+                padding: 15px;
+            }
+
+            .suggestion-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .message {
+                max-width: 90%;
+            }
+
+            .input-area {
+                padding: 12px;
+            }
+
+            .send-button {
+                padding: 0 15px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="assistant-page">
+
+    <div class="assistant-container">
+
+
+        <div class="top">
+
+            <h2>
+                🤖 Privacy+ Assistant
+            </h2>
+
+            <a href="{{ url_for('dashboard') }}"
+               class="back">
+                ← Dashboard
+            </a>
+
+        </div>
+
+
+        <div class="title">
+
+            <h1>
+                Ask Privacy+
+            </h1>
+
+            <p>
+                Ask questions about passwords, scams,
+                phishing, permissions, payments and
+                digital privacy.
+            </p>
+
+        </div>
+
+
+        <div class="chat-box">
+
+
+            <div class="messages"
+                 id="messages">
+
+                <div class="message assistant-message">
+
+                    👋 Hi! I'm your Privacy+ Assistant.
+
+                    <br><br>
+
+                    Choose one of the questions below
+                    or ask me anything related to
+                    digital privacy.
+
+                </div>
+
+            </div>
+
+
+            <div class="suggestions">
+
+                <h3>
+                    💡 Try asking:
+                </h3>
+
+
+                <div class="suggestion-grid">
+
+                    <button class="suggestion"
+                            onclick="askQuestion('What is phishing and how can I identify it?')">
+
+                        🎣 What is phishing and how can I identify it?
+
+                    </button>
+
+
+                    <button class="suggestion"
+                            onclick="askQuestion('How can I protect my online accounts?')">
+
+                        🔐 How can I protect my online accounts?
+
+                    </button>
+
+
+                    <button class="suggestion"
+                            onclick="askQuestion('Are app permissions dangerous?')">
+
+                        📱 Are app permissions dangerous?
+
+                    </button>
+
+
+                    <button class="suggestion"
+                            onclick="askQuestion('How do I identify an online scam?')">
+
+                        🚨 How do I identify an online scam?
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="input-area">
+
+                <input
+                    type="text"
+                    id="questionInput"
+                    placeholder="Ask a privacy-related question..."
+                    onkeydown="handleEnter(event)"
+                >
+
+                <button
+                    class="send-button"
+                    onclick="sendQuestion()">
+
+                    Send
+
+                </button>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<script>
+
+    const messages =
+        document.getElementById("messages");
+
+    const input =
+        document.getElementById("questionInput");
+
+
+    function addMessage(text, type) {
+
+        const message =
+            document.createElement("div");
+
+        message.className =
+            "message " + type;
+
+        message.innerText = text;
+
+        messages.appendChild(message);
+
+        messages.scrollTop =
+            messages.scrollHeight;
+    }
+
+
+    function askQuestion(question) {
+
+        input.value = question;
+
+        sendQuestion();
+
+    }
+
+
+    function handleEnter(event) {
+
+        if (event.key === "Enter") {
+
+            sendQuestion();
+
+        }
+
+    }
+
+
+    async function sendQuestion() {
+
+        const question =
+            input.value.trim();
+
+        if (!question) {
+
+            return;
+
+        }
+
+
+        addMessage(
+            question,
+            "user-message"
+        );
+
+
+        input.value = "";
+
+
+        addMessage(
+            "Thinking...",
+            "assistant-message"
+        );
+
+
+        const thinkingMessage =
+            messages.lastElementChild;
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "{{ url_for('ai_assistant_chat') }}",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            question: question
+                        })
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            thinkingMessage.innerText =
+                data.reply;
+
+
+        } catch (error) {
+
+            thinkingMessage.innerText =
+                "Sorry, something went wrong. Please try again.";
+
+        }
+
+
+        messages.scrollTop =
+            messages.scrollHeight;
+
+    }
+
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>App Explorer | Privacy+</title>
+
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}">
+
+<style>
+
+.tool-page {
+    max-width: 1100px;
+    margin: auto;
+}
+
+.tool-header {
+    margin-bottom: 25px;
+}
+
+.tool-header h1 {
+    font-size: 34px;
+    margin: 8px 0;
+}
+
+.tool-header p {
+    color: #64748b;
+}
+
+.search-box {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.search-box input {
+    flex: 1;
+    padding: 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+}
+
+.search-box button {
+    border: none;
+    background: #2563eb;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-weight: 700;
+}
+
+.app-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(auto-fit, minmax(280px, 1fr));
+    gap: 18px;
+}
+
+.app-card {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    padding: 24px;
+}
+
+.app-icon {
+    font-size: 32px;
+}
+
+.app-card h2 {
+    margin: 12px 0 5px;
+    font-size: 20px;
+}
+
+.app-category {
+    color: #2563eb;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.app-card p {
+    color: #64748b;
+    line-height: 1.6;
+}
+
+.privacy-box {
+    background: #eff6ff;
+    padding: 14px;
+    border-radius: 10px;
+    margin-top: 15px;
+    color: #334155;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.tip-list {
+    padding-left: 20px;
+    color: #475569;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+</style>
+
+</head>
+
+
+<body class="app-body">
+
+
+<aside class="sidebar">
+
+<div class="sidebar-brand">
+
+<div class="brand-icon">+</div>
+
+<div>
+<strong>Privacy+</strong>
+<small>Privacy Awareness</small>
+</div>
+
+</div>
+
+
+<div class="sidebar-section">
+
+<span>MAIN</span>
+
+<a href="{{ url_for('dashboard') }}"
+class="sidebar-link">
+🏠 <span>Dashboard</span>
+</a>
+
+<a href="{{ url_for('privacy_check') }}"
+class="sidebar-link">
+🛡 <span>Privacy Check</span>
+</a>
+
+<a href="{{ url_for('ai_assistant') }}"
+class="sidebar-link">
+🤖 <span>AI Assistant</span>
+</a>
+
+<a href="{{ url_for('scam_checker') }}"
+class="sidebar-link">
+🚨 <span>Scam Checker</span>
+</a>
+
+<a href="{{ url_for('app_explorer') }}"
+class="sidebar-link active">
+📱 <span>App Explorer</span>
+</a>
+
+<a href="{{ url_for('progress') }}"
+class="sidebar-link">
+📊 <span>My Progress</span>
+</a>
+
+<a href="{{ url_for('privacy_hub') }}"
+class="sidebar-link">
+📚 <span>Privacy Hub</span>
+</a>
+
+</div>
+
+
+<div class="sidebar-section">
+
+<span>ACCOUNT</span>
+
+<a href="{{ url_for('profile') }}"
+class="sidebar-link">
+👤 <span>Profile</span>
+</a>
+
+<a href="{{ url_for('logout') }}"
+class="sidebar-link">
+🚪 <span>Logout</span>
+</a>
+
+</div>
+
+</aside>
+
+
+<main class="app-main">
+
+<div class="tool-page">
+
+<div class="tool-header">
+
+<div class="section-label">
+PRIVACY EXPLORER
+</div>
+
+<h1>App Privacy Explorer</h1>
+
+<p>
+Explore common app categories and learn what privacy
+settings you should pay attention to.
+</p>
+
+</div>
+
+
+<form method="GET"
+      class="search-box">
+
+<input
+type="text"
+name="search"
+value="{{ search }}"
+placeholder="Search apps or categories...">
+
+<button type="submit">
+Search
+</button>
+
+</form>
+
+
+<div class="app-grid">
+
+{% for app in apps %}
+
+<div class="app-card">
+
+<div class="app-icon">
+{{ app.icon }}
+</div>
+
+<h2>
+{{ app.name }}
+</h2>
+
+<div class="app-category">
+{{ app.category }}
+</div>
+
+<p>
+{{ app.description }}
+</p>
+
+
+<div class="privacy-box">
+
+<strong>Privacy focus</strong>
+
+<br>
+
+{{ app.privacy }}
+
+</div>
+
+
+<ul class="tip-list">
+
+{% for tip in app.tips %}
+
+<li>{{ tip }}</li>
+
+{% endfor %}
+
+</ul>
+
+</div>
+
+{% else %}
+
+<div class="app-card">
+
+<h2>No results found</h2>
+
+<p>
+Try searching for Social, Finance, Shopping,
+Education or Entertainment.
+</p>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+</main>
+
+</body>
+
+</html>

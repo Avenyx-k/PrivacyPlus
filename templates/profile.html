@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Profile | Privacy+</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body class="app-body">
+
+
+<aside class="sidebar">
+
+    <div class="sidebar-brand">
+
+        <div class="brand-icon">+</div>
+
+        <div>
+            <strong>Privacy+</strong>
+            <small>Privacy Awareness</small>
+        </div>
+
+    </div>
+
+
+    <div class="sidebar-section">
+
+        <span>MAIN</span>
+
+        <a href="{{ url_for('dashboard') }}"
+           class="sidebar-link">
+
+            🏠
+            <span>Dashboard</span>
+
+        </a>
+
+        <div class="sidebar-link disabled-link">
+            🛡
+            <span>Privacy Check</span>
+        </div>
+
+        <div class="sidebar-link disabled-link">
+            🚨
+            <span>Scam Checker</span>
+        </div>
+
+        <div class="sidebar-link disabled-link">
+            📱
+            <span>App Explorer</span>
+        </div>
+
+        <div class="sidebar-link disabled-link">
+            📊
+            <span>My Progress</span>
+        </div>
+
+    </div>
+
+
+    <div class="sidebar-section">
+
+        <span>ACCOUNT</span>
+
+        <a href="{{ url_for('profile') }}"
+           class="sidebar-link active">
+
+            👤
+            <span>Profile</span>
+
+        </a>
+
+        <a href="{{ url_for('logout') }}"
+           class="sidebar-link logout-link">
+
+            🚪
+            <span>Logout</span>
+
+        </a>
+
+    </div>
+
+</aside>
+
+
+<main class="app-main">
+
+
+<header class="app-header">
+
+    <div>
+
+        <div class="section-label">
+            ACCOUNT
+        </div>
+
+        <h1>My Profile</h1>
+
+        <p>
+            Manage your Privacy+ account information.
+        </p>
+
+    </div>
+
+</header>
+
+
+<section class="profile-layout">
+
+
+<div class="profile-summary">
+
+    <div class="large-avatar">
+        {{ student.name[0]|upper }}
+    </div>
+
+    <h2>{{ student.name }}</h2>
+
+    <p>{{ student.email }}</p>
+
+    <div class="profile-tag">
+        Privacy+ Student
+    </div>
+
+</div>
+
+
+<div class="profile-form-card">
+
+    <div class="section-label">
+        PERSONAL INFORMATION
+    </div>
+
+    <h2>
+        Account details
+    </h2>
+
+    {% with messages = get_flashed_messages() %}
+
+        {% if messages %}
+
+            {% for message in messages %}
+
+                <div class="flash-message">
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
+
+
+    <form method="POST">
+
+        <label>Full Name</label>
+
+        <input
+            type="text"
+            name="name"
+            value="{{ student.name }}"
+            required
+        >
+
+
+        <label>Email Address</label>
+
+        <input
+            type="email"
+            name="email"
+            value="{{ student.email }}"
+            required
+        >
+
+
+        <label>College</label>
+
+        <input
+            type="text"
+            name="college"
+            value="{{ student.college }}"
+            required
+        >
+
+
+        <button type="submit"
+                class="primary-button">
+
+            Save Changes
+
+        </button>
+
+    </form>
+
+</div>
+
+
+</section>
+
+
+</main>
+
+</body>
+
+</html>

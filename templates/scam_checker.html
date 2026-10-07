@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Scam Checker | Privacy+</title>
+
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}">
+
+<style>
+
+.tool-page {
+    max-width: 1050px;
+    margin: auto;
+}
+
+.tool-header {
+    margin-bottom: 25px;
+}
+
+.tool-header h1 {
+    font-size: 34px;
+    margin: 8px 0;
+}
+
+.tool-header p {
+    color: #64748b;
+}
+
+.tool-card {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 30px;
+}
+
+.tool-card textarea {
+    width: 100%;
+    min-height: 180px;
+    padding: 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    resize: vertical;
+    font-family: inherit;
+    box-sizing: border-box;
+}
+
+.tool-card textarea:focus {
+    outline: none;
+    border-color: #2563eb;
+}
+
+.primary-button {
+    display: inline-block;
+    border: none;
+    background: #2563eb;
+    color: white;
+    padding: 13px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: 700;
+    margin-top: 15px;
+}
+
+.warning-result {
+    margin-top: 25px;
+    padding: 20px;
+    border-radius: 14px;
+    background: #eff6ff;
+    color: #334155;
+    line-height: 1.7;
+}
+
+</style>
+
+</head>
+
+
+<body class="app-body">
+
+
+<aside class="sidebar">
+
+<div class="sidebar-brand">
+
+<div class="brand-icon">+</div>
+
+<div>
+<strong>Privacy+</strong>
+<small>Privacy Awareness</small>
+</div>
+
+</div>
+
+
+<div class="sidebar-section">
+
+<span>MAIN</span>
+
+<a href="{{ url_for('dashboard') }}"
+   class="sidebar-link">
+🏠 <span>Dashboard</span>
+</a>
+
+<a href="{{ url_for('privacy_check') }}"
+   class="sidebar-link">
+🛡 <span>Privacy Check</span>
+</a>
+
+<a href="{{ url_for('ai_assistant') }}"
+   class="sidebar-link">
+🤖 <span>AI Assistant</span>
+</a>
+
+<a href="{{ url_for('scam_checker') }}"
+   class="sidebar-link active">
+🚨 <span>Scam Checker</span>
+</a>
+
+<a href="{{ url_for('app_explorer') }}"
+   class="sidebar-link">
+📱 <span>App Explorer</span>
+</a>
+
+<a href="{{ url_for('progress') }}"
+   class="sidebar-link">
+📊 <span>My Progress</span>
+</a>
+
+<a href="{{ url_for('privacy_hub') }}"
+   class="sidebar-link">
+📚 <span>Privacy Hub</span>
+</a>
+
+</div>
+
+
+<div class="sidebar-section">
+
+<span>ACCOUNT</span>
+
+<a href="{{ url_for('profile') }}"
+   class="sidebar-link">
+👤 <span>Profile</span>
+</a>
+
+<a href="{{ url_for('logout') }}"
+   class="sidebar-link logout-link">
+🚪 <span>Logout</span>
+</a>
+
+</div>
+
+</aside>
+
+
+<main class="app-main">
+
+<div class="tool-page">
+
+<div class="tool-header">
+
+<div class="section-label">
+INTERACTIVE TOOL
+</div>
+
+<h1>Scam Checker</h1>
+
+<p>
+Paste a suspicious message and Privacy+ will look
+for common scam warning signs.
+</p>
+
+</div>
+
+
+<div class="tool-card">
+
+<form method="POST">
+
+<textarea
+name="message"
+placeholder="Paste a suspicious SMS, email or message here..."
+required></textarea>
+
+<br>
+
+<button
+type="submit"
+class="primary-button">
+
+Check Message →
+
+</button>
+
+</form>
+
+
+{% if result %}
+
+<div class="warning-result">
+
+<strong>
+{{ risk }}
+</strong>
+
+<br><br>
+
+{{ result }}
+
+</div>
+
+{% endif %}
+
+</div>
+
+</div>
+
+</main>
+
+</body>
+
+</html>

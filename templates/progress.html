@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>My Progress | Privacy+</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f8fafc;
+            color: #0f172a;
+        }
+
+        .page {
+            max-width: 1100px;
+            margin: auto;
+            padding: 30px 20px;
+        }
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .top h1 {
+            margin: 0;
+        }
+
+        .back {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns:
+                repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 18px;
+            padding: 25px;
+        }
+
+        .card small {
+            color: #64748b;
+            font-weight: bold;
+        }
+
+        .card h2 {
+            margin: 10px 0 0;
+            font-size: 28px;
+        }
+
+        .progress-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 18px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .bar {
+            height: 16px;
+            background: #e2e8f0;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-top: 15px;
+        }
+
+        .fill {
+            height: 100%;
+            background: #2563eb;
+            width: {{ score }}%;
+        }
+
+        .history {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 18px;
+            padding: 25px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 13px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 14px;
+        }
+
+        th {
+            color: #64748b;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .empty {
+            color: #64748b;
+        }
+
+        @media(max-width: 700px) {
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .top {
+                align-items: flex-start;
+                gap: 15px;
+                flex-direction: column;
+            }
+
+            .history {
+                overflow-x: auto;
+            }
+
+            table {
+                min-width: 600px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="page">
+
+
+    <div class="top">
+
+        <h1>
+            📊 My Progress
+        </h1>
+
+        <a href="{{ url_for('dashboard') }}"
+           class="back">
+
+            ← Dashboard
+
+        </a>
+
+    </div>
+
+
+    <div class="cards">
+
+
+        <div class="card">
+
+            <small>
+                LATEST SCORE
+            </small>
+
+            <h2>
+                {{ score }}%
+            </h2>
+
+        </div>
+
+
+        <div class="card">
+
+            <small>
+                AWARENESS
+            </small>
+
+            <h2>
+                {{ level }}
+            </h2>
+
+        </div>
+
+
+        <div class="card">
+
+            <small>
+                CURRENT RISK
+            </small>
+
+            <h2>
+                {{ risk }}
+            </h2>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="progress-card">
+
+        <h2>
+            Current Privacy Awareness
+        </h2>
+
+        <p>
+            Your latest Privacy Check score is
+            {{ score }}%.
+        </p>
+
+        <div class="bar">
+
+            <div class="fill"></div>
+
+        </div>
+
+    </div>
+
+
+    <div class="history">
+
+        <h2>
+            Assessment History
+        </h2>
+
+
+        {% if history %}
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Date
+                    </th>
+
+                    <th>
+                        Score
+                    </th>
+
+                    <th>
+                        Awareness
+                    </th>
+
+                    <th>
+                        Risk
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for item in history %}
+
+                <tr>
+
+                    <td>
+                        {{ item.assessment_date }}
+                    </td>
+
+                    <td>
+                        {{ item.score }}%
+                    </td>
+
+                    <td>
+                        {{ item.awareness_level }}
+                    </td>
+
+                    <td>
+                        {{ item.risk_level }}
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+        {% else %}
+
+        <p class="empty">
+            No assessment has been completed yet.
+        </p>
+
+        {% endif %}
+
+
+    </div>
+
+
+</div>
+
+</body>
+
+</html>

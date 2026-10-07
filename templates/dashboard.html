@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard | Privacy+</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f8fafc;
+            color: #0f172a;
+        }
+
+        .app-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            width: 250px;
+            min-height: 100vh;
+            background: #ffffff;
+            border-right: 1px solid #e2e8f0;
+            padding: 24px 16px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            overflow-y: auto;
+        }
+
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 10px 25px;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 25px;
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            background: #2563eb;
+            color: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        .sidebar-brand strong {
+            display: block;
+            font-size: 18px;
+        }
+
+        .sidebar-brand small {
+            color: #64748b;
+            font-size: 11px;
+        }
+
+        .sidebar-section {
+            margin-bottom: 28px;
+        }
+
+        .sidebar-section > span {
+            display: block;
+            color: #94a3b8;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            margin: 0 10px 10px;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #475569;
+            padding: 12px 13px;
+            border-radius: 10px;
+            margin-bottom: 4px;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .sidebar-link:hover {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .sidebar-link.active {
+            background: #eff6ff;
+            color: #2563eb;
+            font-weight: 700;
+        }
+
+        .sidebar-link.logout:hover {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        /* ================= MAIN ================= */
+
+        .app-main {
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            padding: 35px;
+        }
+
+        .dashboard-container {
+            max-width: 1250px;
+            margin: auto;
+        }
+
+        /* ================= TOP ================= */
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            gap: 20px;
+        }
+
+        .welcome-text small {
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        .welcome-text h1 {
+            margin: 6px 0 0;
+            font-size: 32px;
+        }
+
+        .profile-button {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #334155;
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 10px 14px;
+            border-radius: 12px;
+        }
+
+        .profile-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #dbeafe;
+            color: #2563eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* ================= HERO ================= */
+
+        .hero-card {
+            background: linear-gradient(
+                135deg,
+                #2563eb,
+                #1d4ed8
+            );
+
+            color: white;
+            border-radius: 24px;
+            padding: 32px;
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-card::after {
+            content: "";
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.08);
+            right: -60px;
+            top: -70px;
+        }
+
+        .hero-card h2 {
+            margin: 0 0 10px;
+            font-size: 27px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-card p {
+            margin: 0;
+            max-width: 650px;
+            line-height: 1.7;
+            color: #dbeafe;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-button {
+            display: inline-block;
+            margin-top: 20px;
+            background: white;
+            color: #1d4ed8;
+            text-decoration: none;
+            padding: 12px 18px;
+            border-radius: 10px;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ================= STATS ================= */
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 18px;
+            padding: 22px;
+        }
+
+        .stat-icon {
+            font-size: 25px;
+            margin-bottom: 15px;
+        }
+
+        .stat-card small {
+            display: block;
+            color: #64748b;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .stat-card strong {
+            display: block;
+            margin-top: 8px;
+            font-size: 25px;
+        }
+
+        /* ================= SECTION ================= */
+
+        .section-heading {
+            margin-bottom: 15px;
+        }
+
+        .section-heading h2 {
+            margin: 0 0 5px;
+            font-size: 22px;
+        }
+
+        .section-heading p {
+            margin: 0;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        /* ================= FEATURES ================= */
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .feature-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 18px;
+            padding: 24px;
+            text-decoration: none;
+            color: #0f172a;
+            transition: 0.2s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-3px);
+            border-color: #93c5fd;
+            box-shadow:
+                0 10px 30px rgba(15, 23, 42, 0.07);
+        }
+
+        .feature-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 12px;
+            background: #eff6ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 23px;
+            margin-bottom: 15px;
+        }
+
+        .feature-card h3 {
+            margin: 0 0 8px;
+            font-size: 17px;
+        }
+
+        .feature-card p {
+            margin: 0;
+            color: #64748b;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* ================= BOTTOM ================= */
+
+        .bottom-grid {
+            display: grid;
+            grid-template-columns:
+                1.5fr 1fr;
+            gap: 18px;
+            margin-top: 30px;
+        }
+
+        .info-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 18px;
+            padding: 24px;
+        }
+
+        .info-card h3 {
+            margin-top: 0;
+        }
+
+        .info-card p {
+            color: #64748b;
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+        .quick-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .quick-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #f1f5f9;
+            color: #475569;
+            font-size: 14px;
+        }
+
+        .quick-list li:last-child {
+            border-bottom: none;
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media(max-width: 900px) {
+
+            .sidebar {
+                width: 210px;
+            }
+
+            .app-main {
+                margin-left: 210px;
+                width: calc(100% - 210px);
+                padding: 25px;
+            }
+
+            .feature-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .stats-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+        }
+
+        @media(max-width: 650px) {
+
+            .app-layout {
+                display: block;
+            }
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                min-height: auto;
+                border-right: none;
+                border-bottom: 1px solid #e2e8f0;
+            }
+
+            .app-main {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+
+            .top-bar {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .stats-grid,
+            .feature-grid,
+            .bottom-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-card {
+                padding: 25px;
+            }
+
+            .hero-card h2 {
+                font-size: 23px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="app-layout">
+
+
+    <!-- ================================================= -->
+    <!-- SIDEBAR -->
+    <!-- ================================================= -->
+
+    <aside class="sidebar">
+
+
+        <div class="sidebar-brand">
+
+            <div class="brand-icon">
+                +
+            </div>
+
+            <div>
+
+                <strong>
+                    Privacy+
+                </strong>
+
+                <small>
+                    Privacy Awareness
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <!-- MAIN NAVIGATION -->
+
+        <div class="sidebar-section">
+
+            <span>
+                MAIN
+            </span>
+
+
+            <a href="{{ url_for('dashboard') }}"
+               class="sidebar-link active">
+
+                🏠
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <a href="{{ url_for('privacy_check') }}"
+               class="sidebar-link">
+
+                🛡️
+
+                <span>
+                    Privacy Check
+                </span>
+
+            </a>
+
+
+            <a href="{{ url_for('ai_assistant') }}"
+               class="sidebar-link">
+
+                🤖
+
+                <span>
+                    AI Assistant
+                </span>
+
+            </a>
+
+
+            <a href="{{ url_for('scam_checker') }}"
+               class="sidebar-link">
+
+                🚨
+
+                <span>
+                    Scam Checker
+                </span>
+
+            </a>
+
+
+            <a href="{{ url_for('app_explorer') }}"
+               class="sidebar-link">
+
+                📱
+
+                <span>
+                    App Explorer
+                </span>
+
+            </a>
+
+
+            <a href="{{ url_for('progress') }}"
+               class="sidebar-link">
+
+                📊
+
+                <span>
+                    My Progress
+                </span>
+
+            </a>
+
+
+            <a href="{{ url_for('privacy_hub') }}"
+               class="sidebar-link">
+
+                📚
+
+                <span>
+                    Privacy Hub
+                </span>
+
+            </a>
+
+        </div>
+
+
+        <!-- ACCOUNT -->
+
+        <div class="sidebar-section">
+
+            <span>
+                ACCOUNT
+            </span>
+
+
+            <a href="{{ url_for('profile') }}"
+               class="sidebar-link">
+
+                👤
+
+                <span>
+                    Profile
+                </span>
+
+            </a>
+
+
+            <a href="{{ url_for('logout') }}"
+               class="sidebar-link logout">
+
+                🚪
+
+                <span>
+                    Logout
+                </span>
+
+            </a>
+
+        </div>
+
+
+    </aside>
+
+
+    <!-- ================================================= -->
+    <!-- MAIN CONTENT -->
+    <!-- ================================================= -->
+
+    <main class="app-main">
+
+
+        <div class="dashboard-container">
+
+
+            <!-- TOP BAR -->
+
+            <div class="top-bar">
+
+                <div class="welcome-text">
+
+                    <small>
+                        PRIVACY+ DASHBOARD
+                    </small>
+
+                    <h1>
+                        Welcome, {{ name }} 👋
+                    </h1>
+
+                </div>
+
+
+                <a href="{{ url_for('profile') }}"
+                   class="profile-button">
+
+                    <div class="profile-avatar">
+                        {{ name[0]|upper }}
+                    </div>
+
+                    <span>
+                        My Profile
+                    </span>
+
+                </a>
+
+            </div>
+
+
+            <!-- HERO -->
+
+            <section class="hero-card">
+
+                <h2>
+                    Take control of your digital privacy.
+                </h2>
+
+                <p>
+                    Check your privacy awareness, understand
+                    your digital risks, explore common app
+                    privacy practices and learn safer online
+                    habits.
+                </p>
+
+
+                <a href="{{ url_for('privacy_check') }}"
+                   class="hero-button">
+
+                    Start Privacy Check →
+
+                </a>
+
+            </section>
+
+
+            <!-- STATS -->
+
+            <div class="stats-grid">
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        🛡️
+                    </div>
+
+                    <small>
+                        PRIVACY CHECK
+                    </small>
+
+                    <strong>
+                        12 Questions
+                    </strong>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        🤖
+                    </div>
+
+                    <small>
+                        PRIVACY ASSISTANT
+                    </small>
+
+                    <strong>
+                        Ask Anything
+                    </strong>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        📊
+                    </div>
+
+                    <small>
+                        YOUR PROGRESS
+                    </small>
+
+                    <strong>
+                        Track Results
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- FEATURES -->
+
+            <div class="section-heading">
+
+                <h2>
+                    Explore Privacy+
+                </h2>
+
+                <p>
+                    Interactive tools designed to improve
+                    everyday digital privacy awareness.
+                </p>
+
+            </div>
+
+
+            <div class="feature-grid">
+
+
+                <!-- PRIVACY CHECK -->
+
+                <a href="{{ url_for('privacy_check') }}"
+                   class="feature-card">
+
+                    <div class="feature-icon">
+                        🛡️
+                    </div>
+
+                    <h3>
+                        Privacy Check
+                    </h3>
+
+                    <p>
+                        Answer 12 practical questions and
+                        discover your privacy awareness score,
+                        risk level and improvement areas.
+                    </p>
+
+                </a>
+
+
+                <!-- AI -->
+
+                <a href="{{ url_for('ai_assistant') }}"
+                   class="feature-card">
+
+                    <div class="feature-icon">
+                        🤖
+                    </div>
+
+                    <h3>
+                        Privacy AI Assistant
+                    </h3>
+
+                    <p>
+                        Ask questions about passwords,
+                        phishing, permissions, scams,
+                        payments and digital privacy.
+                    </p>
+
+                </a>
+
+
+                <!-- SCAM -->
+
+                <a href="{{ url_for('scam_checker') }}"
+                   class="feature-card">
+
+                    <div class="feature-icon">
+                        🚨
+                    </div>
+
+                    <h3>
+                        Scam Checker
+                    </h3>
+
+                    <p>
+                        Check suspicious messages for
+                        common scam warning signs before
+                        taking action.
+                    </p>
+
+                </a>
+
+
+                <!-- APP EXPLORER -->
+
+                <a href="{{ url_for('app_explorer') }}"
+                   class="feature-card">
+
+                    <div class="feature-icon">
+                        📱
+                    </div>
+
+                    <h3>
+                        App Privacy Explorer
+                    </h3>
+
+                    <p>
+                        Explore privacy considerations for
+                        social media, payment, shopping,
+                        education and entertainment apps.
+                    </p>
+
+                </a>
+
+
+                <!-- PROGRESS -->
+
+                <a href="{{ url_for('progress') }}"
+                   class="feature-card">
+
+                    <div class="feature-icon">
+                        📊
+                    </div>
+
+                    <h3>
+                        My Progress
+                    </h3>
+
+                    <p>
+                        View your awareness score,
+                        risk level and performance across
+                        different privacy categories.
+                    </p>
+
+                </a>
+
+
+                <!-- PRIVACY HUB -->
+
+                <a href="{{ url_for('privacy_hub') }}"
+                   class="feature-card">
+
+                    <div class="feature-icon">
+                        📚
+                    </div>
+
+                    <h3>
+                        Privacy Hub
+                    </h3>
+
+                    <p>
+                        Learn practical tips about passwords,
+                        phishing, app permissions, payments
+                        and responsible data sharing.
+                    </p>
+
+                </a>
+
+
+            </div>
+
+
+            <!-- BOTTOM INFORMATION -->
+
+            <div class="bottom-grid">
+
+
+                <div class="info-card">
+
+                    <h3>
+                        💡 Your Privacy Matters
+                    </h3>
+
+                    <p>
+                        Privacy+ helps college students
+                        understand how everyday digital
+                        choices can affect their personal
+                        information.
+                    </p>
+
+                    <p>
+                        Start with the Privacy Check and
+                        then explore the interactive tools
+                        to strengthen your digital habits.
+                    </p>
+
+                </div>
+
+
+                <div class="info-card">
+
+                    <h3>
+                        Quick Access
+                    </h3>
+
+                    <ul class="quick-list">
+
+                        <li>
+                            🛡️ Take Privacy Check
+                        </li>
+
+                        <li>
+                            🤖 Ask Privacy+ Assistant
+                        </li>
+
+                        <li>
+                            🚨 Check a suspicious message
+                        </li>
+
+                        <li>
+                            📱 Explore app privacy
+                        </li>
+
+                        <li>
+                            📊 Review your progress
+                        </li>
+
+                    </ul>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </main>
+
+
+</div>
+
+
+</body>
+
+</html>

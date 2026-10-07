@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{% block title %}Privacy+ | Settings{% endblock %}
+
+{% block content %}
+
+<div class="app-layout">
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="sidebar-brand">
+
+            <div class="brand-icon">+</div>
+
+            <span class="sidebar-title">
+                Privacy<span>+</span>
+            </span>
+
+        </div>
+
+
+        <div class="sidebar-section">
+
+            <span class="sidebar-label">MAIN</span>
+
+            <a href="{{ url_for('dashboard') }}" class="side-link">
+                <span>⌂</span>
+                <span class="link-text">Dashboard</span>
+            </a>
+
+            <a href="#" class="side-link">
+                <span>✓</span>
+                <span class="link-text">Privacy Check</span>
+            </a>
+
+            <a href="#" class="side-link">
+                <span>✦</span>
+                <span class="link-text">AI Analyzer</span>
+            </a>
+
+            <a href="#" class="side-link">
+                <span>◈</span>
+                <span class="link-text">Scam Checker</span>
+            </a>
+
+        </div>
+
+
+        <div class="sidebar-bottom">
+
+            <a href="{{ url_for('profile') }}" class="side-link">
+                <span>◯</span>
+                <span class="link-text">My Profile</span>
+            </a>
+
+            <a href="{{ url_for('settings') }}" class="side-link active">
+                <span>⚙</span>
+                <span class="link-text">Settings</span>
+            </a>
+
+            <a href="{{ url_for('logout') }}" class="side-link logout-link">
+                <span>↪</span>
+                <span class="link-text">Logout</span>
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <main class="dashboard-main">
+
+        <header class="dashboard-header">
+
+            <button
+                class="menu-button"
+                onclick="toggleSidebar()"
+            >
+                ☰
+            </button>
+
+            <div class="dashboard-actions">
+
+                <button
+                    class="icon-button"
+                    onclick="toggleTheme()"
+                >
+                    ◐
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <section class="profile-page">
+
+            <div class="page-heading">
+
+                <span class="section-label">
+                    PREFERENCES
+                </span>
+
+                <h1>Settings</h1>
+
+                <p>
+                    Customize your Privacy+ experience.
+                </p>
+
+            </div>
+
+
+            <div class="profile-card settings-card">
+
+                <div class="setting-row">
+
+                    <div>
+
+                        <strong>Appearance</strong>
+
+                        <p>
+                            Switch between light and dark mode.
+                        </p>
+
+                    </div>
+
+                    <button
+                        class="theme-switch"
+                        onclick="toggleTheme()"
+                    >
+                        ◐ Toggle Theme
+                    </button>
+
+                </div>
+
+
+                <div class="setting-row">
+
+                    <div>
+
+                        <strong>Privacy+ Experience</strong>
+
+                        <p>
+                            Your dashboard will display your
+                            privacy awareness progress here.
+                        </p>
+
+                    </div>
+
+                    <span class="setting-status">
+                        Active
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+{% endblock %}

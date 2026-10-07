@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Privacy Result | Privacy+</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+
+        .result-wrapper {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .result-header {
+            margin-bottom: 25px;
+        }
+
+        .result-header h1 {
+            font-size: 34px;
+            margin: 8px 0;
+        }
+
+        .result-header p {
+            color: #64748b;
+        }
+
+        .result-top {
+            display: grid;
+            grid-template-columns: 0.8fr 1.2fr;
+            gap: 22px;
+            margin-bottom: 22px;
+        }
+
+        .result-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 30px;
+        }
+
+        .score-card {
+            text-align: center;
+        }
+
+        .score-circle {
+            width: 190px;
+            height: 190px;
+            margin: 15px auto 20px;
+
+            border-radius: 50%;
+
+            background:
+                conic-gradient(
+                    #2563eb calc(var(--score) * 1%),
+                    #e2e8f0 0
+                );
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .score-inner {
+            width: 145px;
+            height: 145px;
+
+            border-radius: 50%;
+
+            background: white;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .score-number {
+            font-size: 40px;
+            font-weight: 800;
+            color: #111827;
+        }
+
+        .score-label {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .result-badge {
+            display: inline-block;
+
+            padding: 8px 13px;
+
+            border-radius: 20px;
+
+            background: #eff6ff;
+            color: #2563eb;
+
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .result-title {
+            font-size: 24px;
+            margin: 15px 0 8px;
+        }
+
+        .result-description {
+            color: #64748b;
+            line-height: 1.7;
+        }
+
+        .highlight-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .highlight-box {
+            padding: 18px;
+
+            border-radius: 13px;
+
+            background: #f8fafc;
+        }
+
+        .highlight-box span {
+            display: block;
+            color: #64748b;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .highlight-box strong {
+            display: block;
+            margin-top: 8px;
+            font-size: 16px;
+        }
+
+        .category-list {
+            margin-top: 20px;
+        }
+
+        .category-row {
+            margin-bottom: 20px;
+        }
+
+        .category-heading {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 7px;
+        }
+
+        .category-heading span {
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .category-heading strong {
+            font-size: 13px;
+            color: #2563eb;
+        }
+
+        .category-track {
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .category-fill {
+            height: 100%;
+            background: #2563eb;
+            border-radius: 20px;
+        }
+
+        .recommendation {
+            display: flex;
+            gap: 14px;
+
+            padding: 16px;
+
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+
+            margin-top: 12px;
+        }
+
+        .recommendation-icon {
+            flex-shrink: 0;
+
+            width: 35px;
+            height: 35px;
+
+            border-radius: 9px;
+
+            background: #eff6ff;
+            color: #2563eb;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .recommendation p {
+            color: #475569;
+            line-height: 1.6;
+            font-size: 13px;
+        }
+
+        .result-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 800px) {
+
+            .result-top {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        @media (max-width: 550px) {
+
+            .highlight-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body class="app-body">
+
+
+<aside class="sidebar">
+
+    <div class="sidebar-brand">
+
+        <div class="brand-icon">+</div>
+
+        <div>
+            <strong>Privacy+</strong>
+            <small>Privacy Awareness</small>
+        </div>
+
+    </div>
+
+
+    <div class="sidebar-section">
+
+        <span>MAIN</span>
+
+
+        <a href="{{ url_for('dashboard') }}"
+           class="sidebar-link">
+
+            🏠
+            <span>Dashboard</span>
+
+        </a>
+
+
+        <a href="{{ url_for('privacy_check') }}"
+           class="sidebar-link active">
+
+            🛡
+            <span>Privacy Check</span>
+
+        </a>
+
+
+        <div class="sidebar-link disabled-link">
+            🚨
+            <span>Scam Checker</span>
+        </div>
+
+
+        <div class="sidebar-link disabled-link">
+            📱
+            <span>App Explorer</span>
+        </div>
+
+
+        <div class="sidebar-link disabled-link">
+            📊
+            <span>My Progress</span>
+        </div>
+
+    </div>
+
+
+    <div class="sidebar-section">
+
+        <span>ACCOUNT</span>
+
+
+        <a href="{{ url_for('profile') }}"
+           class="sidebar-link">
+
+            👤
+            <span>Profile</span>
+
+        </a>
+
+
+        <a href="{{ url_for('logout') }}"
+           class="sidebar-link logout-link">
+
+            🚪
+            <span>Logout</span>
+
+        </a>
+
+    </div>
+
+</aside>
+
+
+<main class="app-main">
+
+
+<div class="result-wrapper">
+
+
+<header class="result-header">
+
+    <div class="section-label">
+        PRIVACY ANALYSIS
+    </div>
+
+    <h1>
+        Your Privacy+ Result
+    </h1>
+
+    <p>
+        Here's an overview of your current privacy
+        awareness and the areas you can improve.
+    </p>
+
+</header>
+
+
+<section class="result-top">
+
+
+<!-- SCORE -->
+
+<div class="result-card score-card">
+
+    <div class="section-label">
+        OVERALL SCORE
+    </div>
+
+
+    <div
+        class="score-circle"
+        style="--score: {{ result.score }};"
+    >
+
+        <div class="score-inner">
+
+            <span class="score-number">
+                {{ result.score }}
+            </span>
+
+            <span class="score-label">
+                out of 100
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <span class="result-badge">
+        {{ result.risk_level }}
+    </span>
+
+</div>
+
+
+<!-- SUMMARY -->
+
+<div class="result-card">
+
+    <div class="section-label">
+        YOUR AWARENESS
+    </div>
+
+    <h2 class="result-title">
+        {{ result.awareness_level }}
+    </h2>
+
+    <p class="result-description">
+
+        Your result is based on your responses
+        across six privacy-awareness categories.
+
+        Use this result as a starting point for
+        improving your digital privacy habits.
+
+    </p>
+
+
+    <div class="highlight-grid">
+
+        <div class="highlight-box">
+
+            <span>
+                Strongest Area
+            </span>
+
+            <strong>
+                {{ result.strongest_area }}
+            </strong>
+
+        </div>
+
+
+        <div class="highlight-box">
+
+            <span>
+                Needs Attention
+            </span>
+
+            <strong>
+                {{ result.weakest_area }}
+            </strong>
+
+        </div>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- CATEGORY ANALYSIS -->
+
+<section class="result-card">
+
+    <div class="section-label">
+        CATEGORY ANALYSIS
+    </div>
+
+    <h2 class="result-title">
+        Your privacy habits by area
+    </h2>
+
+
+    <div class="category-list">
+
+        {% for category, score in result.category_scores.items() %}
+
+        <div class="category-row">
+
+            <div class="category-heading">
+
+                <span>
+                    {{ category }}
+                </span>
+
+                <strong>
+                    {{ score }}%
+                </strong>
+
+            </div>
+
+
+            <div class="category-track">
+
+                <div
+                    class="category-fill"
+                    style="width: {{ score }}%;"
+                ></div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+
+<br>
+
+
+<!-- RECOMMENDATIONS -->
+
+<section class="result-card">
+
+    <div class="section-label">
+        PERSONALIZED RECOMMENDATIONS
+    </div>
+
+    <h2 class="result-title">
+        Improve your privacy habits
+    </h2>
+
+
+    {% for recommendation in result.recommendations %}
+
+    <div class="recommendation">
+
+        <div class="recommendation-icon">
+            ✓
+        </div>
+
+        <p>
+            {{ recommendation }}
+        </p>
+
+    </div>
+
+    {% endfor %}
+
+
+    <div class="result-actions">
+
+        <a
+            href="{{ url_for('privacy_check') }}"
+            class="primary-button"
+        >
+            Retake Assessment
+        </a>
+
+
+        <a
+            href="{{ url_for('dashboard') }}"
+            class="secondary-button"
+        >
+            Back to Dashboard
+        </a>
+
+    </div>
+
+</section>
+
+
+</div>
+
+</main>
+
+
+</body>
+
+</html>

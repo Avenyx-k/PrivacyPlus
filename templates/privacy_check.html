@@ -1,0 +1,1529 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Privacy Check | Privacy+</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+
+        .assessment-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .assessment-header {
+            margin-bottom: 28px;
+        }
+
+        .assessment-header h1 {
+            font-size: 34px;
+            margin: 8px 0;
+        }
+
+        .assessment-header p {
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        .progress-container {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 16px 18px;
+            margin-bottom: 20px;
+        }
+
+        .progress-top {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .progress-top span {
+            font-size: 12px;
+            color: #64748b;
+            font-weight: 700;
+        }
+
+        .progress-track {
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 8.33%;
+            background: #2563eb;
+            border-radius: 20px;
+            transition: width 0.3s ease;
+        }
+
+        .question-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+        }
+
+        .question-category {
+            display: inline-block;
+            padding: 7px 11px;
+            background: #eff6ff;
+            color: #2563eb;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .question-number {
+            color: #94a3b8;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .question-text {
+            font-size: 25px;
+            line-height: 1.4;
+            margin-bottom: 30px;
+            color: #111827;
+        }
+
+        .answer-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+        }
+
+        .answer-option {
+            position: relative;
+        }
+
+        .answer-option input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .answer-option label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 65px;
+
+            padding: 15px;
+
+            border: 1px solid #cbd5e1;
+            border-radius: 12px;
+
+            cursor: pointer;
+
+            color: #475569;
+            font-size: 14px;
+            font-weight: 700;
+
+            transition: 0.2s;
+        }
+
+        .answer-option label:hover {
+            border-color: #2563eb;
+            background: #f8fbff;
+        }
+
+        .answer-option input:checked + label {
+            border-color: #2563eb;
+            background: #eff6ff;
+            color: #2563eb;
+            box-shadow: 0 0 0 2px #dbeafe;
+        }
+
+        .question-navigation {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .nav-question-button {
+            border: 1px solid #cbd5e1;
+            background: white;
+            color: #475569;
+
+            padding: 13px 20px;
+            border-radius: 10px;
+
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .nav-question-button:hover {
+            border-color: #2563eb;
+            color: #2563eb;
+        }
+
+        .submit-button {
+            border: none;
+            background: #2563eb;
+            color: white;
+
+            padding: 13px 22px;
+            border-radius: 10px;
+
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .submit-button:hover {
+            background: #1d4ed8;
+        }
+
+        .question-screen {
+            display: none;
+        }
+
+        .question-screen.active {
+            display: block;
+        }
+
+        .assessment-note {
+            margin-top: 18px;
+            padding: 14px 16px;
+
+            background: #f8fafc;
+            border-radius: 10px;
+
+            color: #64748b;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 650px) {
+
+            .answer-options {
+                grid-template-columns: 1fr;
+            }
+
+            .question-card {
+                padding: 22px;
+            }
+
+            .question-text {
+                font-size: 21px;
+            }
+
+            .question-navigation {
+                flex-wrap: wrap;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body class="app-body">
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="sidebar">
+
+    <div class="sidebar-brand">
+
+        <div class="brand-icon">+</div>
+
+        <div>
+
+            <strong>Privacy+</strong>
+
+            <small>
+                Privacy Awareness
+            </small>
+
+        </div>
+
+    </div>
+
+
+    <div class="sidebar-section">
+
+        <span>MAIN</span>
+
+
+        <a href="{{ url_for('dashboard') }}"
+           class="sidebar-link">
+
+            🏠
+            <span>Dashboard</span>
+
+        </a>
+
+
+        <a href="{{ url_for('privacy_check') }}"
+           class="sidebar-link active">
+
+            🛡
+            <span>Privacy Check</span>
+
+        </a>
+
+
+        <div class="sidebar-link disabled-link">
+
+            🚨
+            <span>Scam Checker</span>
+
+        </div>
+
+
+        <div class="sidebar-link disabled-link">
+
+            📱
+            <span>App Explorer</span>
+
+        </div>
+
+
+        <div class="sidebar-link disabled-link">
+
+            📊
+            <span>My Progress</span>
+
+        </div>
+
+    </div>
+
+
+    <div class="sidebar-section">
+
+        <span>ACCOUNT</span>
+
+
+        <a href="{{ url_for('profile') }}"
+           class="sidebar-link">
+
+            👤
+            <span>Profile</span>
+
+        </a>
+
+
+        <a href="{{ url_for('logout') }}"
+           class="sidebar-link logout-link">
+
+            🚪
+            <span>Logout</span>
+
+        </a>
+
+    </div>
+
+</aside>
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="app-main">
+
+
+<div class="assessment-wrapper">
+
+
+    <header class="assessment-header">
+
+        <div class="section-label">
+            PRIVACY ASSESSMENT
+        </div>
+
+        <h1>
+            How privacy-aware are you?
+        </h1>
+
+        <p>
+            Answer honestly. There are no right or wrong
+            answers — your responses help Privacy+ understand
+            your current digital privacy habits.
+        </p>
+
+    </header>
+
+
+    <!-- PROGRESS -->
+
+    <div class="progress-container">
+
+        <div class="progress-top">
+
+            <span id="progressText">
+                Question 1 of 12
+            </span>
+
+            <span id="progressPercent">
+                8%
+            </span>
+
+        </div>
+
+
+        <div class="progress-track">
+
+            <div
+                class="progress-fill"
+                id="progressFill">
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- FORM -->
+
+    <form
+        method="POST"
+        action="{{ url_for('submit_privacy_check') }}"
+        id="privacyForm">
+
+
+        <!-- QUESTION 1 -->
+
+        <div class="question-screen active"
+             data-question="0">
+
+            <div class="question-card">
+
+                <div class="question-category">
+                    🛡 Account Security
+                </div>
+
+                <div class="question-number">
+                    QUESTION 01
+                </div>
+
+                <div class="question-text">
+                    Do you use different passwords for your
+                    important online accounts?
+                </div>
+
+                <div class="answer-options">
+
+                    <div class="answer-option">
+                        <input
+                            type="radio"
+                            name="q0"
+                            value="Never"
+                            id="q0-never">
+
+                        <label for="q0-never">
+                            Never
+                        </label>
+                    </div>
+
+                    <div class="answer-option">
+                        <input
+                            type="radio"
+                            name="q0"
+                            value="Sometimes"
+                            id="q0-sometimes">
+
+                        <label for="q0-sometimes">
+                            Sometimes
+                        </label>
+                    </div>
+
+                    <div class="answer-option">
+                        <input
+                            type="radio"
+                            name="q0"
+                            value="Often"
+                            id="q0-often">
+
+                        <label for="q0-often">
+                            Often
+                        </label>
+                    </div>
+
+                    <div class="answer-option">
+                        <input
+                            type="radio"
+                            name="q0"
+                            value="Always"
+                            id="q0-always">
+
+                        <label for="q0-always">
+                            Always
+                        </label>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- QUESTION 2 -->
+
+        <div class="question-screen"
+             data-question="1">
+
+            <div class="question-card">
+
+                <div class="question-category">
+                    🛡 Account Security
+                </div>
+
+                <div class="question-number">
+                    QUESTION 02
+                </div>
+
+                <div class="question-text">
+                    Do you use two-factor authentication (2FA)
+                    when it is available?
+                </div>
+
+                <div class="answer-options">
+
+                    <div class="answer-option">
+                        <input type="radio"
+                               name="q1"
+                               value="Never"
+                               id="q1-never">
+
+                        <label for="q1-never">
+                            Never
+                        </label>
+                    </div>
+
+                    <div class="answer-option">
+                        <input type="radio"
+                               name="q1"
+                               value="Sometimes"
+                               id="q1-sometimes">
+
+                        <label for="q1-sometimes">
+                            Sometimes
+                        </label>
+                    </div>
+
+                    <div class="answer-option">
+                        <input type="radio"
+                               name="q1"
+                               value="Often"
+                               id="q1-often">
+
+                        <label for="q1-often">
+                            Often
+                        </label>
+                    </div>
+
+                    <div class="answer-option">
+                        <input type="radio"
+                               name="q1"
+                               value="Always"
+                               id="q1-always">
+
+                        <label for="q1-always">
+                            Always
+                        </label>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- QUESTION 3 -->
+
+        <div class="question-screen"
+             data-question="2">
+
+            <div class="question-card">
+
+                <div class="question-category">
+                    📱 App Permissions
+                </div>
+
+                <div class="question-number">
+                    QUESTION 03
+                </div>
+
+                <div class="question-text">
+                    Do you check what permissions an app requests
+                    before allowing access?
+                </div>
+
+                <div class="answer-options">
+
+                    <div class="answer-option">
+                        <input type="radio"
+                               name="q2"
+                               value="Never"
+                               id="q2-never">
+
+                        <label for="q2-never">
+                            Never
+                        </label>
+                    </div>
+
+                    <div class="answer-option">
+                        <input type="radio"
+                               name="q2"
+                               value="Sometimes"
+                               id="q2-sometimes">
+
+                        <label for="q2-sometimes">
+                            Sometimes
+                        </label>
+                    </div>
+
+                    <div class="answer-option">
+                        <input type="radio"
+                               name="q2"
+                               value="Often"
+                               id="q2-often">
+
+                        <label for="q2-often">
+                            Often
+                        </label>
+                    </div>
+
+                    <div class="answer-option">
+                        <input type="radio"
+                               name="q2"
+                               value="Always"
+                               id="q2-always">
+
+                        <label for="q2-always">
+                            Always
+                        </label>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- QUESTION 4 -->
+
+        <div class="question-screen"
+             data-question="3">
+
+            <div class="question-card">
+
+                <div class="question-category">
+                    📱 App Permissions
+                </div>
+
+                <div class="question-number">
+                    QUESTION 04
+                </div>
+
+                <div class="question-text">
+                    Do you remove permissions that an app
+                    no longer needs?
+                </div>
+
+                <div class="answer-options">
+
+                    <div class="answer-option">
+                        <input type="radio"
+                               name="q3"
+                               value="Never"
+                               id="q3-never">
+
+                        <label for="q3-never">
+                            Never
+                        </label>
+                    </div>
+
+                    <div class="answer-option">
+                        <input type="radio"
+                               name="q3"
+                               value="Sometimes"
+                               id="q3-sometimes">
+
+                        <label for="q3-sometimes">
+                            Sometimes
+                        </label>
+                    </div>
+
+                    <div class="answer-option">
+                        <input type="radio"
+                               name="q3"
+                               value="Often"
+                               id="q3-often">
+
+                        <label for="q3-often">
+                            Often
+                        </label>
+                    </div>
+
+                    <div class="answer-option">
+                        <input type="radio"
+                               name="q3"
+                               value="Always"
+                               id="q3-always">
+
+                        <label for="q3-always">
+                            Always
+                        </label>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- QUESTION 5 -->
+
+        <div class="question-screen"
+             data-question="4">
+
+            <div class="question-card">
+
+                <div class="question-category">
+                    🌐 Sharing Habits
+                </div>
+
+                <div class="question-number">
+                    QUESTION 05
+                </div>
+
+                <div class="question-text">
+                    Do you avoid publicly sharing personal
+                    information such as your phone number
+                    or home address?
+                </div>
+
+                <div class="answer-options">
+
+                    <div class="answer-option">
+                        <input type="radio"
+                               name="q4"
+                               value="Never"
+                               id="q4-never">
+
+                        <label for="q4-never">
+                            Never
+                        </label>
+                    </div>
+
+                    <div class="answer-option">
+                        <input type="radio"
+                               name="q4"
+                               value="Sometimes"
+                               id="q4-sometimes">
+
+                        <label for="q4-sometimes">
+                            Sometimes
+                        </label>
+                    </div>
+
+                    <div class="answer-option">
+                        <input type="radio"
+                               name="q4"
+                               value="Often"
+                               id="q4-often">
+
+                        <label for="q4-often">
+                            Often
+                        </label>
+                    </div>
+
+                    <div class="answer-option">
+                        <input type="radio"
+                               name="q4"
+                               value="Always"
+                               id="q4-always">
+
+                        <label for="q4-always">
+                            Always
+                        </label>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- QUESTION 6 -->
+
+        <div class="question-screen"
+             data-question="5">
+
+            <div class="question-card">
+
+                <div class="question-category">
+                    🌐 Sharing Habits
+                </div>
+
+                <div class="question-number">
+                    QUESTION 06
+                </div>
+
+                <div class="question-text">
+                    Do you review your social media privacy
+                    settings?
+                </div>
+
+                <div class="answer-options">
+
+                    <div class="answer-option">
+                        <input type="radio"
+                               name="q5"
+                               value="Never"
+                               id="q5-never">
+
+                        <label for="q5-never">
+                            Never
+                        </label>
+                    </div>
+
+                    <div class="answer-option">
+                        <input type="radio"
+                               name="q5"
+                               value="Sometimes"
+                               id="q5-sometimes">
+
+                        <label for="q5-sometimes">
+                            Sometimes
+                        </label>
+                    </div>
+
+                    <div class="answer-option">
+                        <input type="radio"
+                               name="q5"
+                               value="Often"
+                               id="q5-often">
+
+                        <label for="q5-often">
+                            Often
+                        </label>
+                    </div>
+
+                    <div class="answer-option">
+                        <input type="radio"
+                               name="q5"
+                               value="Always"
+                               id="q5-always">
+
+                        <label for="q5-always">
+                            Always
+                        </label>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- QUESTION 7 -->
+
+        <div class="question-screen"
+             data-question="6">
+
+            <div class="question-card">
+
+                <div class="question-category">
+                    💳 Payment Safety
+                </div>
+
+                <div class="question-number">
+                    QUESTION 07
+                </div>
+
+                <div class="question-text">
+                    Do you verify a payment request or payment
+                    link before making a transaction?
+                </div>
+
+                <div class="answer-options">
+
+                    <div class="answer-option">
+                        <input type="radio"
+                               name="q6"
+                               value="Never"
+                               id="q6-never">
+
+                        <label for="q6-never">
+                            Never
+                        </label>
+                    </div>
+
+                    <div class="answer-option">
+                        <input type="radio"
+                               name="q6"
+                               value="Sometimes"
+                               id="q6-sometimes">
+
+                        <label for="q6-sometimes">
+                            Sometimes
+                        </label>
+                    </div>
+
+                    <div class="answer-option">
+                        <input type="radio"
+                               name="q6"
+                               value="Often"
+                               id="q6-often">
+
+                        <label for="q6-often">
+                            Often
+                        </label>
+                    </div>
+
+                    <div class="answer-option">
+                        <input type="radio"
+                               name="q6"
+                               value="Always"
+                               id="q6-always">
+
+                        <label for="q6-always">
+                            Always
+                        </label>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- QUESTION 8 -->
+
+        <div class="question-screen"
+             data-question="7">
+
+            <div class="question-card">
+
+                <div class="question-category">
+                    💳 Payment Safety
+                </div>
+
+                <div class="question-number">
+                    QUESTION 08
+                </div>
+
+                <div class="question-text">
+                    Do you keep your OTP, PIN and banking
+                    credentials private?
+                </div>
+
+                <div class="answer-options">
+
+                    <div class="answer-option">
+                        <input type="radio"
+                               name="q7"
+                               value="Never"
+                               id="q7-never">
+
+                        <label for="q7-never">
+                            Never
+                        </label>
+                    </div>
+
+                    <div class="answer-option">
+                        <input type="radio"
+                               name="q7"
+                               value="Sometimes"
+                               id="q7-sometimes">
+
+                        <label for="q7-sometimes">
+                            Sometimes
+                        </label>
+                    </div>
+
+                    <div class="answer-option">
+                        <input type="radio"
+                               name="q7"
+                               value="Often"
+                               id="q7-often">
+
+                        <label for="q7-often">
+                            Often
+                        </label>
+                    </div>
+
+                    <div class="answer-option">
+                        <input type="radio"
+                               name="q7"
+                               value="Always"
+                               id="q7-always">
+
+                        <label for="q7-always">
+                            Always
+                        </label>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- QUESTION 9 -->
+
+        <div class="question-screen"
+             data-question="8">
+
+            <div class="question-card">
+
+                <div class="question-category">
+                    🎣 Phishing Awareness
+                </div>
+
+                <div class="question-number">
+                    QUESTION 09
+                </div>
+
+                <div class="question-text">
+                    Do you check the sender and link before
+                    opening an unexpected message?
+                </div>
+
+                <div class="answer-options">
+
+                    <div class="answer-option">
+                        <input type="radio"
+                               name="q8"
+                               value="Never"
+                               id="q8-never">
+
+                        <label for="q8-never">
+                            Never
+                        </label>
+                    </div>
+
+                    <div class="answer-option">
+                        <input type="radio"
+                               name="q8"
+                               value="Sometimes"
+                               id="q8-sometimes">
+
+                        <label for="q8-sometimes">
+                            Sometimes
+                        </label>
+                    </div>
+
+                    <div class="answer-option">
+                        <input type="radio"
+                               name="q8"
+                               value="Often"
+                               id="q8-often">
+
+                        <label for="q8-often">
+                            Often
+                        </label>
+                    </div>
+
+                    <div class="answer-option">
+                        <input type="radio"
+                               name="q8"
+                               value="Always"
+                               id="q8-always">
+
+                        <label for="q8-always">
+                            Always
+                        </label>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- QUESTION 10 -->
+
+        <div class="question-screen"
+             data-question="9">
+
+            <div class="question-card">
+
+                <div class="question-category">
+                    🎣 Phishing Awareness
+                </div>
+
+                <div class="question-number">
+                    QUESTION 10
+                </div>
+
+                <div class="question-text">
+                    Do you avoid clicking urgent links asking
+                    you to verify an account or claim a reward?
+                </div>
+
+                <div class="answer-options">
+
+                    <div class="answer-option">
+                        <input type="radio"
+                               name="q9"
+                               value="Never"
+                               id="q9-never">
+
+                        <label for="q9-never">
+                            Never
+                        </label>
+                    </div>
+
+                    <div class="answer-option">
+                        <input type="radio"
+                               name="q9"
+                               value="Sometimes"
+                               id="q9-sometimes">
+
+                        <label for="q9-sometimes">
+                            Sometimes
+                        </label>
+                    </div>
+
+                    <div class="answer-option">
+                        <input type="radio"
+                               name="q9"
+                               value="Often"
+                               id="q9-often">
+
+                        <label for="q9-often">
+                            Often
+                        </label>
+                    </div>
+
+                    <div class="answer-option">
+                        <input type="radio"
+                               name="q9"
+                               value="Always"
+                               id="q9-always">
+
+                        <label for="q9-always">
+                            Always
+                        </label>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- QUESTION 11 -->
+
+        <div class="question-screen"
+             data-question="10">
+
+            <div class="question-card">
+
+                <div class="question-category">
+                    🔐 Data Awareness
+                </div>
+
+                <div class="question-number">
+                    QUESTION 11
+                </div>
+
+                <div class="question-text">
+                    Do you think about what personal information
+                    a website or app is collecting?
+                </div>
+
+                <div class="answer-options">
+
+                    <div class="answer-option">
+                        <input type="radio"
+                               name="q10"
+                               value="Never"
+                               id="q10-never">
+
+                        <label for="q10-never">
+                            Never
+                        </label>
+                    </div>
+
+                    <div class="answer-option">
+                        <input type="radio"
+                               name="q10"
+                               value="Sometimes"
+                               id="q10-sometimes">
+
+                        <label for="q10-sometimes">
+                            Sometimes
+                        </label>
+                    </div>
+
+                    <div class="answer-option">
+                        <input type="radio"
+                               name="q10"
+                               value="Often"
+                               id="q10-often">
+
+                        <label for="q10-often">
+                            Often
+                        </label>
+                    </div>
+
+                    <div class="answer-option">
+                        <input type="radio"
+                               name="q10"
+                               value="Always"
+                               id="q10-always">
+
+                        <label for="q10-always">
+                            Always
+                        </label>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- QUESTION 12 -->
+
+        <div class="question-screen"
+             data-question="11">
+
+            <div class="question-card">
+
+                <div class="question-category">
+                    🔐 Data Awareness
+                </div>
+
+                <div class="question-number">
+                    QUESTION 12
+                </div>
+
+                <div class="question-text">
+                    Do you avoid giving unnecessary personal
+                    information when using online services?
+                </div>
+
+                <div class="answer-options">
+
+                    <div class="answer-option">
+                        <input type="radio"
+                               name="q11"
+                               value="Never"
+                               id="q11-never">
+
+                        <label for="q11-never">
+                            Never
+                        </label>
+                    </div>
+
+                    <div class="answer-option">
+                        <input type="radio"
+                               name="q11"
+                               value="Sometimes"
+                               id="q11-sometimes">
+
+                        <label for="q11-sometimes">
+                            Sometimes
+                        </label>
+                    </div>
+
+                    <div class="answer-option">
+                        <input type="radio"
+                               name="q11"
+                               value="Often"
+                               id="q11-often">
+
+                        <label for="q11-often">
+                            Often
+                        </label>
+                    </div>
+
+                    <div class="answer-option">
+                        <input type="radio"
+                               name="q11"
+                               value="Always"
+                               id="q11-always">
+
+                        <label for="q11-always">
+                            Always
+                        </label>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- NAVIGATION -->
+
+        <div class="question-navigation">
+
+            <button
+                type="button"
+                class="nav-question-button"
+                id="previousButton"
+                onclick="previousQuestion()">
+
+                ← Previous
+
+            </button>
+
+
+            <button
+                type="button"
+                class="submit-button"
+                id="nextButton"
+                onclick="nextQuestion()">
+
+                Next →
+
+            </button>
+
+        </div>
+
+
+        <input
+            type="hidden"
+            name="answers"
+            id="answersInput">
+
+
+        <div class="assessment-note">
+
+            🔒 <strong>Privacy note:</strong>
+            Your answers are used to calculate your
+            Privacy+ awareness result. Do not enter passwords,
+            OTPs, PINs or other confidential information.
+
+        </div>
+
+    </form>
+
+</div>
+
+
+</main>
+
+
+<script>
+
+const totalQuestions = 12;
+
+let currentQuestion = 0;
+
+let answers = Array(totalQuestions).fill("");
+
+
+const questionScreens =
+    document.querySelectorAll(".question-screen");
+
+const progressFill =
+    document.getElementById("progressFill");
+
+const progressText =
+    document.getElementById("progressText");
+
+const progressPercent =
+    document.getElementById("progressPercent");
+
+const previousButton =
+    document.getElementById("previousButton");
+
+const nextButton =
+    document.getElementById("nextButton");
+
+
+function updateScreen() {
+
+    questionScreens.forEach(
+        (screen, index) => {
+
+            screen.classList.toggle(
+                "active",
+                index === currentQuestion
+            );
+
+        }
+    );
+
+
+    const percentage =
+        Math.round(
+            ((currentQuestion + 1) / totalQuestions) * 100
+        );
+
+
+    progressFill.style.width =
+        percentage + "%";
+
+
+    progressText.textContent =
+        `Question ${currentQuestion + 1} of ${totalQuestions}`;
+
+
+    progressPercent.textContent =
+        percentage + "%";
+
+
+    previousButton.style.visibility =
+        currentQuestion === 0
+            ? "hidden"
+            : "visible";
+
+
+    if (currentQuestion === totalQuestions - 1) {
+
+        nextButton.textContent =
+            "Submit Assessment ✓";
+
+    } else {
+
+        nextButton.textContent =
+            "Next →";
+
+    }
+
+}
+
+
+function saveCurrentAnswer() {
+
+    const selected =
+        document.querySelector(
+            `input[name="q${currentQuestion}"]:checked`
+        );
+
+
+    if (!selected) {
+
+        return false;
+
+    }
+
+
+    answers[currentQuestion] =
+        selected.value;
+
+    return true;
+
+}
+
+
+function restoreAnswer() {
+
+    const answer =
+        answers[currentQuestion];
+
+
+    if (!answer) {
+
+        return;
+
+    }
+
+
+    const radio =
+        document.querySelector(
+            `input[name="q${currentQuestion}"][value="${answer}"]`
+        );
+
+
+    if (radio) {
+
+        radio.checked = true;
+
+    }
+
+}
+
+
+function nextQuestion() {
+
+    if (!saveCurrentAnswer()) {
+
+        alert(
+            "Please select an answer before continuing."
+        );
+
+        return;
+
+    }
+
+
+    if (currentQuestion === totalQuestions - 1) {
+
+        document.getElementById("answersInput").value =
+            JSON.stringify(answers);
+
+        document.getElementById("privacyForm").submit();
+
+        return;
+
+    }
+
+
+    currentQuestion++;
+
+    updateScreen();
+
+    restoreAnswer();
+
+}
+
+
+function previousQuestion() {
+
+    saveCurrentAnswer();
+
+
+    if (currentQuestion > 0) {
+
+        currentQuestion--;
+
+        updateScreen();
+
+        restoreAnswer();
+
+    }
+
+}
+
+
+updateScreen();
+
+</script>
+
+
+</body>
+
+</html>

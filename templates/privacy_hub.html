@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Privacy Hub | Privacy+</title>
+
+<link rel="stylesheet"
+href="{{ url_for('static', filename='css/style.css') }}">
+
+<style>
+
+.hub-page {
+    max-width: 1050px;
+    margin: auto;
+}
+
+.hub-header h1 {
+    font-size: 34px;
+}
+
+.hub-header p {
+    color: #64748b;
+}
+
+.hub-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(auto-fit, minmax(280px, 1fr));
+    gap: 18px;
+    margin-top: 25px;
+}
+
+.hub-card {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    padding: 25px;
+}
+
+.hub-icon {
+    font-size: 30px;
+}
+
+.hub-card h2 {
+    font-size: 20px;
+}
+
+.hub-card p {
+    color: #64748b;
+    line-height: 1.7;
+}
+
+</style>
+
+</head>
+
+
+<body class="app-body">
+
+
+<aside class="sidebar">
+
+<div class="sidebar-brand">
+
+<div class="brand-icon">+</div>
+
+<div>
+<strong>Privacy+</strong>
+<small>Privacy Awareness</small>
+</div>
+
+</div>
+
+
+<div class="sidebar-section">
+
+<span>MAIN</span>
+
+<a href="{{ url_for('dashboard') }}"
+class="sidebar-link">
+🏠 <span>Dashboard</span>
+</a>
+
+<a href="{{ url_for('privacy_check') }}"
+class="sidebar-link">
+🛡 <span>Privacy Check</span>
+</a>
+
+<a href="{{ url_for('ai_assistant') }}"
+class="sidebar-link">
+🤖 <span>AI Assistant</span>
+</a>
+
+<a href="{{ url_for('scam_checker') }}"
+class="sidebar-link">
+🚨 <span>Scam Checker</span>
+</a>
+
+<a href="{{ url_for('app_explorer') }}"
+class="sidebar-link">
+📱 <span>App Explorer</span>
+</a>
+
+<a href="{{ url_for('progress') }}"
+class="sidebar-link">
+📊 <span>My Progress</span>
+</a>
+
+<a href="{{ url_for('privacy_hub') }}"
+class="sidebar-link active">
+📚 <span>Privacy Hub</span>
+</a>
+
+</div>
+
+
+<div class="sidebar-section">
+
+<span>ACCOUNT</span>
+
+<a href="{{ url_for('profile') }}"
+class="sidebar-link">
+👤 <span>Profile</span>
+</a>
+
+<a href="{{ url_for('logout') }}"
+class="sidebar-link">
+🚪 <span>Logout</span>
+</a>
+
+</div>
+
+</aside>
+
+
+<main class="app-main">
+
+<div class="hub-page">
+
+<div class="hub-header">
+
+<div class="section-label">
+LEARN & PROTECT
+</div>
+
+<h1>Privacy Hub</h1>
+
+<p>
+Quick, practical privacy knowledge for everyday
+digital life.
+</p>
+
+</div>
+
+
+<div class="hub-grid">
+
+
+<div class="hub-card">
+
+<div class="hub-icon">🔐</div>
+
+<h2>Strong Passwords</h2>
+
+<p>
+Use unique passwords for important accounts.
+Avoid using the same password everywhere.
+</p>
+
+</div>
+
+
+<div class="hub-card">
+
+<div class="hub-icon">🎣</div>
+
+<h2>Phishing</h2>
+
+<p>
+Check unexpected messages, senders and links
+before clicking or responding.
+</p>
+
+</div>
+
+
+<div class="hub-card">
+
+<div class="hub-icon">📱</div>
+
+<h2>App Permissions</h2>
+
+<p>
+Only give applications permissions they actually
+need. Review access regularly.
+</p>
+
+</div>
+
+
+<div class="hub-card">
+
+<div class="hub-icon">💳</div>
+
+<h2>Payment Safety</h2>
+
+<p>
+Never share your OTP, PIN or banking credentials.
+Verify payment requests independently.
+</p>
+
+</div>
+
+
+<div class="hub-card">
+
+<div class="hub-icon">🌐</div>
+
+<h2>Social Privacy</h2>
+
+<p>
+Review who can see your profile, posts, location
+and other personal information.
+</p>
+
+</div>
+
+
+<div class="hub-card">
+
+<div class="hub-icon">🧠</div>
+
+<h2>Think Before You Share</h2>
+
+<p>
+Before providing personal information online,
+ask whether the service really needs it.
+</p>
+
+</div>
+
+
+</div>
+
+</div>
+
+</main>
+
+</body>
+
+</html>
