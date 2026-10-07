@@ -1,4 +1,7 @@
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 import mysql.connector
@@ -19,11 +22,11 @@ app.secret_key = os.environ.get(
 def get_db_connection():
 
     return mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="Mp#191320y",
-        database="privacy_plus",
-        port=3306
+        host=os.environ.get("DB_HOST", "localhost"),
+        user=os.environ.get("DB_USER", "root"),
+        password=os.environ.get("DB_PASSWORD", ""),
+        database=os.environ.get("DB_NAME", "privacy_plus"),
+        port=int(os.environ.get("DB_PORT", "3306"))
     )
 
 
